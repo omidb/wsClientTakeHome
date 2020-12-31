@@ -1,0 +1,4 @@
+[debug] [wsClient-test] Classpath dependencies List()
+[debug] [wsClient-test] Dependencies from configurations List(wsClient)
+[debug] Bloop wrote the configuration of project 'wsClient-test' to '/Users/omid/workplace/wsClientTakeHome/.bloop/wsClient-test.json'
+[success] Generated .bloop/wsClient-test.json
