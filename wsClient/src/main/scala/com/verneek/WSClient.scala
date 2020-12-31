@@ -10,7 +10,6 @@ import scala.concurrent.duration._
 
 import scala.concurrent.Future
 import akka.actor.Cancellable
-// import akka.actor.Status.Success
 import scala.util.{Try, Failure, Success}
 import scala.concurrent.ExecutionContext
 import scala.util.Random
@@ -33,9 +32,6 @@ object WSClient {
         // ignore other message types
       }
 
-    var counter = 0
-
-    val timeStamp = DateTime.now.toIsoDateTimeString()
     val source: Source[Message, NotUsed] =
       Source
         .fromIterator(() => (0L to max).toIterator)
@@ -85,14 +81,15 @@ object WSClient {
     implicit val system = ActorSystem()
     implicit val ec = system.dispatcher
 
-    val futures = (0 to 10)
-      .map(id => initClient(s"$id", "ws://echo.websocket.org", 100))
+    val numberOfPatients = 10
+    val numberOfDataPerPatient = 1000
+    val server = "ws://echo.websocket.org"
+    val futures = (0 to numberOfPatients)
+      .map(id => initClient(s"$id", server, numberOfDataPerPatient))
       .toSeq
 
     Future
       .sequence(futures.map(futureToFutureTry(_)))
       .onComplete(_ => system.terminate())
-    // val seqq = Future.sequence(futures.map(_.transform(e => Success(e))))
-    // val seq = Future.sequence(futures.map(_.transform(Success(_))))
   }
 }
